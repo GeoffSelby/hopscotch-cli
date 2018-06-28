@@ -17,15 +17,37 @@ module.exports = {
             targetDir = process.cwd();
         }
 
-        cpdir.sync(templateDir, targetDir);
+        // cpdir.sync(templateDir, targetDir);
 
-        console.info('Installing dependencies...');
-        console.info('This may take some time...');
+        cpdir(templateDir, targetDir, function(err) {
+            if(err) {
+                console.log(err);
+            } else {
+                console.info('Installing dependencies...');
+                console.info('This may take some time...');
 
-        getAsync('yarn').then(data => {
-            console.info('All done! Go build something amazing!');
-        }).catch(err => {
-            console.log('Oops... something went wrong with Yarn.');
+                getAsync(`cd ${targetDir} && yarn`).then(data => {
+                    getAsync(`cd ${targetDir} && yarn run dev`).then(data => {
+                        console.log('All Done! Go build something amazing!');
+                    })
+                }).catch(err => {
+                    console.log(err);
+                });
+            }
         });
+
+        // console.info('Installing dependencies...');
+        // console.info('This may take some time...');
+
+        // getAsync('npm install').then(data => {
+        //     getAsync('./node_modules/.bin/tailwind init tailwind.js').then(data => {
+        //         console.info('All done! Go build something amazing!');
+        //     }).catch(err => {
+        //         console.log(err);
+        //     });
+        //     console.log('NPM INSTALL WORKED!');
+        // }).catch(err => {
+        //     console.log('Oops... something went wrong with Yarn.');
+        // });
     }
 };
