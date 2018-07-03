@@ -1,10 +1,6 @@
 
-const fs = require('fs');
 const cpdir = require('copy-dir');
-const Promise = require('bluebird');
-const cmd = require('node-cmd');
-
-const getAsync = Promise.promisify(cmd.get, { multiArgs: true, context: cmd })
+const { spawn } = require('child_process');
 
 module.exports = {
     build(directory) {
@@ -17,8 +13,6 @@ module.exports = {
             targetDir = process.cwd();
         }
 
-        // cpdir.sync(templateDir, targetDir);
-
         cpdir(templateDir, targetDir, function(err) {
             if(err) {
                 console.log(err);
@@ -26,28 +20,11 @@ module.exports = {
                 console.info('Installing dependencies...');
                 console.info('This may take some time...');
 
-                getAsync(`cd ${targetDir} && yarn`).then(data => {
-                    getAsync(`cd ${targetDir} && yarn run dev`).then(data => {
-                        console.log('All Done! Go build something amazing!');
-                    })
-                }).catch(err => {
-                    console.log(err);
+                spawn(`cd ${targetDir} && yarn && yarn run dev`, [], {
+                    shell: true,
+                    stdio: 'inherit'
                 });
             }
         });
-
-        // console.info('Installing dependencies...');
-        // console.info('This may take some time...');
-
-        // getAsync('npm install').then(data => {
-        //     getAsync('./node_modules/.bin/tailwind init tailwind.js').then(data => {
-        //         console.info('All done! Go build something amazing!');
-        //     }).catch(err => {
-        //         console.log(err);
-        //     });
-        //     console.log('NPM INSTALL WORKED!');
-        // }).catch(err => {
-        //     console.log('Oops... something went wrong with Yarn.');
-        // });
     }
 };
