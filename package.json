@@ -2,8 +2,9 @@
   "name": "hopscotch-cli",
   "version": "0.3.0",
   "description": "An opinionated approach to modular JavaScript.",
-  "main": "hopscotch.js",
-  "bin": "./hopscotch",
+  "bin": {
+    "hopscotch": "./hopscotch.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
