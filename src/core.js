@@ -1,9 +1,9 @@
-const fs = require('fs');
 const cpdir = require('copy-dir');
+const chalk = require('chalk');
 const { spawn } = require('child_process');
 
 module.exports = {
-  build(directory) {
+  init(directory) {
     let targetDir;
 
     if (typeof directory !== 'undefined') {
@@ -12,22 +12,22 @@ module.exports = {
       targetDir = process.cwd();
     }
 
-    this.buildStatic(targetDir);
+    this.build(targetDir);
   },
 
-  buildStatic(targetDir) {
+  build(targetDir) {
     const templateDir = `${__dirname}/templates/default`;
 
     cpdir(templateDir, targetDir, (err) => {
       if (err) {
         console.log(err);
       } else {
-        console.info('Installing dependencies...');
-        console.info('This may take some time...');
+        console.info(chalk.yellow('Installing dependencies...'));
+        console.info(chalk.yellow('This may take some time...'));
 
-        spawn(`cd ${targetDir} && yarn && yarn run dev`, [], {
+        spawn(`cd ${targetDir} && yarn`, [], {
           shell: true,
-          stdio: 'inherit'
+          stdio: 'inherit',
         });
       }
     });

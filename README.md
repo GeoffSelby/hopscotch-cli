@@ -1,6 +1,6 @@
 # Hopscotch CLI
 
-An opinionated approach to front end tooling.
+An opinionated approach to modular JavaScript.
 
 ## Installation
 
@@ -13,14 +13,10 @@ npm install -g hopscotch-cli
 ## Usage
 
 ```bash
-hopscotch init
+hopscotch init <directory>
 ```
 
-To scafold in another directory, we can pass an optional parameter to Hopscotch.
-```bash
-hopscotch init new-directory
-```
-NOTE: The directory does not need to exist before running the command.
+> NOTE: If no `directory` argument is given, the project will be installed in the current deirctory.
 
 ## License
 
